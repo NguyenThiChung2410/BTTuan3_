@@ -27,11 +27,11 @@
         </div>
         <div class="mb-2">
             <label>Hình ảnh</label>
-            <input type="file" name="hinh" value="" class="form-control" required="" />
+            <input type="file" name="hinh" value="" required="" class="form-control" />
         </div>
          <div class="mb-2">
             <label>Thể loại</label>
-            <select name="maloai" class="form-control">      
+            <select name="maloai" class="form-control" required="">      
                 <option value="" disabled="">==Chọn thể loại==</option>
                 <%
                     ArrayList <Loai> dsLoai=(ArrayList<Loai>)request.getAttribute("dsLoai");

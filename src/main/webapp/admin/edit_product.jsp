@@ -12,15 +12,14 @@
 <jsp:include page="../shared/header.jsp" />
 
 <jsp:include page="../shared/nav.jsp" />
-<%
+
+<div class="container">
+    <%
  Hoa hoa = (Hoa)request.getAttribute("hoa");
  ArrayList <Loai> dsLoai=(ArrayList<Loai>)request.getAttribute("dsLoai");
 %>
-
-<div class="container">
-    
     <h2>Cập nhật sản phẩm (Hoa)</h2>    
-    <form method="post" enctype="multipart/form-data">
+    <form method="post">
         <div class="mb-2">
             <label>Tên hoa</label>
             <input type="text" name="tenhoa" value="<%=hoa.getTenhoa()%>" class="form-control" />
