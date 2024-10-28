@@ -4,8 +4,6 @@
  */
 package controller;
 
-
-
 import dao.HoaDAO;
 import dao.LoaiDAO;
 import java.io.IOException;
@@ -57,38 +55,70 @@ public class ManageProduct extends HttpServlet {
                 request.getRequestDispatcher("admin/list_product.jsp").forward(request, response);
                 break;
             case "ADD":
-                if (request.getMethod().equalsIgnoreCase("get"))
-                 {
+
+                if (request.getMethod().equals("GET")) {
                     request.setAttribute("dsLoai", loaiDAO.getAll());
                     request.getRequestDispatcher("admin/add_product.jsp").forward(request, response);
-                }else if (request.getMethod().equalsIgnoreCase("post")){
+                } else if (request.getMethod().equals("POST")) {
+                    String tenhoa = request.getParameter("tenhoa");
+                    double gia = Double.parseDouble(request.getParameter("gia"));
+                    Part part = request.getPart("hinh");
+                    int maloai = Integer.parseInt(request.getParameter("maloai"));
                     
-                    String tenhoa=request.getParameter("tenhoa");
-                    double gia =Double.parseDouble(request.getParameter("gia"));
-                    Part part=request.getPart("hinh");
-                    int maloai =Integer.parseInt(request.getParameter("maloai"));
-                    
-                    String realPath = request.getServletContext().getRealPath("/assets/images/products");
+                    String realPath = request.getServletContext().getRealPath("assets/images/products");
                     String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
                     part.write(realPath + "/" + filename);
                     
-                    Hoa objInsert=new Hoa(0,tenhoa,gia,filename,maloai,new Date(new java.util.Date().getTime()));
-                    if(hoaDAO.Insert(objInsert)){
-                        request.setAttribute("success","Thêm sản phẩm thành công");
+                    Hoa objInsert = new Hoa(0, tenhoa, gia, filename, maloai, new Date((new java.util.Date().getTime())));
+                    if (hoaDAO.Insert(objInsert)) {
+                        
+                        request.setAttribute("success", "Thao tác thêm sản phẩm thành công");
+                    } else {
+                        request.setAttribute("error", "Thao tác thêm sản phẩm thất bại");
                     }
-                    else{
-                        request.setAttribute("error", "Thêm sản phẩm thất bại");
-                    }
-                    request.getRequestDispatcher("ManageProduct?action=list").forward(request, response);
+                    // chuyển tiếp  người dùng về action=LIST để liệt kê lại danh sách sản phẩm
+                    request.getRequestDispatcher("ManageProduct?action=LIST").forward(request, response);
                 }
                 break;
             case "EDIT":
 
-                request.getRequestDispatcher("admin/edit_product.jsp").forward(request, response);
+
+                if (request.getMethod().equalsIgnoreCase("get")) {
+                    int mahoa = Integer.parseInt(request.getParameter("mahoa"));
+                    request.setAttribute("hoa", hoaDAO.getById(mahoa));
+                    request.setAttribute("dsLoai", loaiDAO.getAll());
+                    request.getRequestDispatcher("admin/edit_product.jsp").forward(request, response);
+
+                } else if (request.getMethod().equalsIgnoreCase("post")) {
+                    int mahoa = Integer.parseInt(request.getParameter("mahoa"));
+                    String tenhoa = request.getParameter("tenhoa");
+                    double gia = Double.parseDouble(request.getParameter("gia"));
+                    Part part = request.getPart("hinh");
+                    int maloai = Integer.parseInt(request.getParameter("maloai"));
+                    String filename = request.getParameter("oldImg");
+                    if (part.getSize() > 0) {
+                        String realPath = request.getServletContext().getRealPath("assets/images/products");
+                        filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+                        part.write(realPath + "/" + filename);
+                    }
+                    Hoa objUpdate = new Hoa(mahoa, tenhoa, gia, filename, maloai, new Date((new java.util.Date().getTime())));
+                    if (hoaDAO.Update(objUpdate)) {
+                        request.setAttribute("success", "Cập nhật sản phẩm thành công");
+                    } else {
+                        request.setAttribute("error", "Cập nhật sản phẩm thất bại");
+                    }
+                    request.getRequestDispatcher("ManageProduct?action=LIST").forward(request, response);
+                }
                 break;
             case "DELETE":
-
-                System.out.println("DELETE");
+                
+                int mahoa = Integer.parseInt(request.getParameter("mahoa"));
+                if (hoaDAO.Delete(mahoa)) {
+                    request.setAttribute("success", "Thao tác xóa sản phẩm thành công");
+                } else {
+                    request.setAttribute("error", "Thao tác xóa sản phẩm thất bại");
+                }
+                request.getRequestDispatcher("ManageProduct?action=LIST").forward(request, response);
                 break;
         }
 
