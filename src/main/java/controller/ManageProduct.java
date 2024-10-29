@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -50,8 +51,16 @@ public class ManageProduct extends HttpServlet {
 
         switch (action) {
             case "LIST":
-
-                request.setAttribute("dsHoa", hoaDAO.getAll());
+                int pageSize=5;
+                int pageIndex=1;
+                if(request.getParameter("page")!=null){
+                    pageIndex=Integer.parseInt(request.getParameter("page"));
+                }
+                int pageSum=(int) Math.ceil((double)hoaDAO.getAll().size()/pageSize);
+                ArrayList<Hoa> dsHoa=hoaDAO.getPage(pageIndex, pageSize);
+                request.setAttribute("dsHoa", dsHoa);
+                request.setAttribute("pageSum", pageSum);
+                request.setAttribute("pageIndex", pageIndex);
                 request.getRequestDispatcher("admin/list_product.jsp").forward(request, response);
                 break;
             case "ADD":
