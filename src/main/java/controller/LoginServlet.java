@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.TaiKhoanDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.TaiKhoan;
 
 /**
  *
@@ -36,7 +38,9 @@ public class LoginServlet extends HttpServlet {
         String username=request.getParameter("username");
         String password=request.getParameter("password");
         
-        if(username.equalsIgnoreCase("admin") && password.equals("admin")){
+        TaiKhoanDAO tkDAO=new TaiKhoanDAO();
+        TaiKhoan tk=tkDAO.checkLogin(username, password);
+        if(tk!=null){
             HttpSession session=request.getSession();
             session.setAttribute("username",username);
             response.sendRedirect("home.jsp");
