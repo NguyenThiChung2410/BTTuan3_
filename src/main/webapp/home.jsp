@@ -26,7 +26,7 @@
         <div class="col-sm-12">
             <div class="row"> 
                 <%
-                    DecimalFormat fmt = new DecimalFormat("#,##0");
+                    DecimalFormat fmt = new DecimalFormat("#,##0 VNĐ");
                     HoaDAO hoaDAO = new HoaDAO();
                     ArrayList<Hoa> dsHoa = hoaDAO.getTop10(); // lấy dữ liệu từ tầng DAL
                     for (Hoa x : dsHoa) {
@@ -44,7 +44,7 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col">
-                                    <p class="btn btn-danger btn-block"><%=fmt.format(x.getGia())%>Đ </p>
+                                    <p class="btn btn-danger btn-block"><%=fmt.format(x.getGia())%> </p>
                                 </div>
                                 <div class="col">
                                     <a href="#" class="btn btn-success btn-block">Add to cart</a>

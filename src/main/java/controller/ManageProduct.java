@@ -54,7 +54,7 @@ public class ManageProduct extends HttpServlet {
             action = request.getParameter("action");
         }
 
-        switch (action) {
+        switch (action.toUpperCase()) {
             case "LIST":
                 int pageSize=5;
                 int pageIndex=1;

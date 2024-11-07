@@ -19,7 +19,7 @@
  ArrayList <Loai> dsLoai=(ArrayList<Loai>)request.getAttribute("dsLoai");
 %>
     <h2>Cập nhật sản phẩm (Hoa)</h2>    
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="mb-2">
             <label>Tên hoa</label>
             <input type="text" name="tenhoa" value="<%=hoa.getTenhoa()%>" class="form-control" />

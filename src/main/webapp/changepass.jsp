@@ -19,7 +19,7 @@
         <input type="password" name="newpassword" required="" class="form-control">
     </div>
     <div>
-        <label>Confirm PassWord</label>
+        <label>Confirm New PassWord</label>
         <input type="password" name="confirmpassword" required="" class="form-control">
     </div>
     <div class="mt-2">
