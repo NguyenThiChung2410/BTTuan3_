@@ -23,7 +23,7 @@
                     
                 %>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Welcome<%=session.getAttribute("username")%> </a>
+                    <a class="nav-link" href="changepass.jsp">Welcome<%=session.getAttribute("username")%> </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="LogoutServlet">Logout</a>

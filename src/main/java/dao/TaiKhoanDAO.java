@@ -35,6 +35,23 @@ public class TaiKhoanDAO {
         }
         return kq;
     }
+    public boolean Update(TaiKhoan tk){
+        String sql = "update TaiKhoan set matkhau=? where tendangnhap=?";
+        conn = DbContext.getConnection();
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, tk.getMatkhau());
+            ps.setString(2, tk.getTendangnhap());
+            
+            int kq = ps.executeUpdate();
+            if (kq > 0) {
+                return true;
+            }
+        } catch (Exception ex) {
+            System.out.println("Loi:" + ex.toString());
+        }
+        return false;
+    }
     public static void main(String[] args){
         TaiKhoanDAO tkDAO=new TaiKhoanDAO();
         TaiKhoan tk=tkDAO.checkLogin("ntthuy", "ntthuy90");
